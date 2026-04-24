@@ -1,6 +1,5 @@
-const otpStore = new map();
-
-const registrationStore = new map();
+const otpStore = new Map();
+const registrationStore = new Map();
 
 
 module.exports = {

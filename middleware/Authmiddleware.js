@@ -23,7 +23,7 @@
     })
 
   }
-   next() 
+   next(); 
     }
 
  catch(error){
@@ -34,3 +34,5 @@
  }
  
   }
+
+  module.exports = {validateSendOtp};
