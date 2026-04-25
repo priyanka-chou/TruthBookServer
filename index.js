@@ -2,10 +2,10 @@ const express =require('express');
 require('dotenv').config();
 const server=express();
 const connectDB = require('./database/Db');
-const authRoutes = require("./routes/AuthRoute");
+const authRoutes = require("./routes/authRoute");
 
 
-server.use("api/auth",authRoutes);
+server.use("/api/auth",authRoutes);
 
 server.get('/',(req,res)=>{
     res.send('Hello World');

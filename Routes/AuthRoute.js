@@ -1,10 +1,9 @@
-const express =require("express");
-const router =express().router;
+const express = require("express");
+const router = express.Router();
 
+const { sendOtp } = require("../controllers/authController");
+const { validateSendOtp } = require("../middleware/authMiddleware");
 
-const { sendOtp } = require("../Controllers/AuthController")
-const { validateSendOtp } = require("../middleware/Authmiddleware")
-
-router.post("/send-otp", validateSendOtp, sendOtp)
+router.post("/send-otp", validateSendOtp, sendOtp);
 
 module.exports = router;
