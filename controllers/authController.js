@@ -30,6 +30,27 @@
       
   }
 
-  module.exports ={sendOtp};
+  const verifyOtp  = async (req,res)=>{
+   try{
+      const {  email}=req.body;
+      
+      otpStore.delete(email);
+      
+      registrationStore.set(email,{...req.userRecord,emailVerified:true})
+
+      res.status(200).json({
+         message : "Otp verified successfully",
+         message :"Email verified"
+      })
+      
+   }
+   catch(error){
+       res.status(500).json({
+         message:"Something went wrong"
+       })
+   }
+  }
+
+  module.exports ={sendOtp,verifyOtp};
   
 

@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { sendOtp } = require("../controllers/authController");
-const { validateSendOtp } = require("../middleware/authMiddleware");
+const { sendOtp ,verifyOtp} = require("../controllers/authController");
+const { validateEmail ,validateSendOtp} = require("../middleware/authMiddleware");
 
-router.post("/send-otp", validateSendOtp, sendOtp);
+
+router.post("/send-otp", validateEmail, sendOtp);
+router.post("/verify-otp,",validateSendOtp, verifyOtp);
 
 module.exports = router;
