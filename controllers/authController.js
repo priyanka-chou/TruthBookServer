@@ -5,6 +5,7 @@
 
 
   const sendOtp = async (req,res)=>{
+    const sendOtp = async (req,res)=>{
      try{
          const { fullName , email }=req.body;
 
@@ -27,6 +28,10 @@
             message :"otp failed"
          })
      }
+      
+  }
+
+  module.exports ={sendOtp};
       
   }
 

@@ -34,10 +34,12 @@ const sendEmail = async (email, otp, firstName = "there") => {
     </td>`
     ).join("");
 
-    const expiryTime = new Date(Date.now() + 5 * 60 * 1000).toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
+    const expiryTime = new Date(Date.now() + 5 * 60 * 1000)
+  .toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Kolkata"
+  });
 
     const MAX_RETRIES = 3;
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
