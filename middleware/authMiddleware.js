@@ -170,11 +170,7 @@ const validateUsername = async (req, res, next) => {
 
     const userRecord = registrationStore.get(email);
 
-    if (!userRecord || !userRecord.emailVerified || !userRecord.password) {
-      res.status(400).json({
-        message: "Please complete previous step first"
-      })
-    }
+  
 
     const existingUserName = await User.findOne({ userName });
 
