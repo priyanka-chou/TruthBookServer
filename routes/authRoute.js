@@ -15,7 +15,7 @@ const { validateEmail,
 router.post("/send-otp", validateEmail, sendOtp);
 router.post("/verify-otp", validateSendOtp, verifyOtp);
 router.post("/set-password", validatePassword, setPassword);
-router.post("/set-userName",validateUsername,setUsername)
+router.post("/set-userName",validateUsername,setUserName)
 
 
 module.exports = router;
