@@ -93,6 +93,12 @@ const setPassword = async (req, res) => {
    }
 }
 
+
+
+//        Step 4 =>     userName set 
+
+
+
 module.exports = { sendOtp, verifyOtp, setPassword };
 
 
