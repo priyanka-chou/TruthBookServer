@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { registrationStore } = require("../utils/store");
+const { registrationStore , otpStore } = require("../utils/store");
 
 const validateSendOtp = async (req, res, next) => {
   try{
@@ -11,7 +11,7 @@ const validateSendOtp = async (req, res, next) => {
         });
        }
 
-       const otpRecord =otpstore.get(email);
+       const otpRecord =otpStore.get(email);
 
        if(!otpRecord){
         return res.status(400).json({
@@ -25,8 +25,8 @@ const validateSendOtp = async (req, res, next) => {
         })
        }
 
-      if(otpRecord.otp != String(otp)){
-           return res.stauts(400).json({
+    if (otpRecord.otp !== String(otp)){
+           return res.status(400).json({
             message:"Invalid otp"
            })
       }
