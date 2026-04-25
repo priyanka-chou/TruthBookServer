@@ -48,7 +48,7 @@ const sendOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
    try {
-      const { email , userRecord} = req.body;
+      const { email, userRecord } = req.body;
 
       otpStore.delete(email);
 
@@ -74,7 +74,7 @@ const verifyOtp = async (req, res) => {
 const setPassword = async (req, res) => {
    try {
 
-      const { email, password, userRecord} = req.body
+      const { email, password, userRecord } = req.body
 
       const salt = await bcrypt.genSalt(10)
 
@@ -83,7 +83,7 @@ const setPassword = async (req, res) => {
       registrationStore.set(email, { ...userRecord, password: hashedPassword, passwordSet: true })
 
       res.status(200).json({
-        message: "Password set successfully. Continue registration."
+         message: "Password set successfully. Continue registration."
       })
 
    }
@@ -98,7 +98,47 @@ const setPassword = async (req, res) => {
 
 //        Step 4 =>     userName set 
 
+const setUserName = async (req, res) => {
+   try {
 
+      const { email, userName, userRecord } = req.body
+
+      const newUser = new User({
+         email,
+         userName,
+         userRecord
+      })
+
+      const savedUser = await newUser.save();
+
+      const {password : encodedpassword,
+            ...finaluserRecord
+       }=savedUser.toObject()
+
+      const token = jwt.sign({
+         _id: savedUser._id
+
+      },
+  
+         
+         process.env.JWT_SECRET,
+       { expiresAt: process.env.JWT_EXPIRE || "7d" }
+      )
+
+      res.status(200).json({
+         message: "successfully username created",user : finaluserRecord,token
+      });
+
+
+   }
+
+   catch (error) {
+      res.staus(500).json({
+         message: "Invalid username"
+      })
+   }
+
+}
 
 
 module.exports = { sendOtp, verifyOtp, setPassword };

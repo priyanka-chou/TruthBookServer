@@ -40,7 +40,7 @@ const validateEmail = async (req, res, next) => {
 //       Step 2 => Validate otp to verify 
 
 
-const validateSendOtp = async (req, res, next) => {
+const validateSendOtp = (req, res, next) => {
   try {
     const { email, otp } = req.body;
 
@@ -105,7 +105,7 @@ const validatePassword = (req, res, next) => {
       return res.status(400).json({ message: "Email and password are required" })
     }
 
-    
+
 
     const userRecord = registrationStore.get(email)
 
@@ -124,7 +124,9 @@ const validatePassword = (req, res, next) => {
 
 
     if (password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" })
+      return res.status(400).json({
+        message: "Password must be at least 6 characters"
+      })
     }
 
     req.cleanedData = {
@@ -142,8 +144,56 @@ const validatePassword = (req, res, next) => {
   }
 
   const validateUsername = async (req, res, next) => {
-    
+    try {
+      const { email, userName } = req.body;
+
+      if (!email || !userName) {
+        res.status(400).json({
+          message: " Email and username are required"
+        })
+      }
+
+      const regex = /^[a-z0-9_]{4,10}$/
+
+      if (!regex.test(userName)) {
+        res.status(400).json({
+          message: " Invaid username"
+        })
+
+      }
+
+      const userRecord = registrationStore.get(email);
+
+      if (!userRecord || !userRecord.emailVerified || !userRecord.password) {
+        res.status(400).json({
+          message: "Please complete previous step first"
+        })
+      }
+
+      const existingUserName = await User.findOne({ userName });
+
+      if (existingUserName) {
+        res.status(400).json({
+          message: "Username already taken"
+        })
+      }
+
+      req.cleanedData = {
+        email,
+        userName,
+        userRecord
+      };
+      
+      next();
+    }
+
+    catch (error) {
+      res.status(500).json({
+        message: "middleware error"
+      })
+    }
   }
+
 
 }
 
