@@ -141,6 +141,10 @@ const validatePassword = (req, res, next) => {
     })
   }
 
+  const validateUsername = async (req, res, next) => {
+    
+  }
+
 }
 
 
