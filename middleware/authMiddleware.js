@@ -97,7 +97,7 @@ const validateSendOtp = async (req, res, next) => {
 
 
 
-const validatePassword = async (req, res, next) => {
+const validatePassword = (req, res, next) => {
   try {
     const { email, password } = req.body
 
@@ -105,15 +105,34 @@ const validatePassword = async (req, res, next) => {
       return res.status(400).json({ message: "Email and password are required" })
     }
 
+    email = email.toLowerCase().trim();
+
     const userRecord = registrationStore.get(email)
 
-    if (!userRecord || !userRecord.emailVerified) {
-      return res.status(400).json({ message: "Please verify your email first" })
+
+    if (!userRecord) {
+      return res.status(400).json({
+        message: "Registration session expired. Please try again."
+      });
     }
+
+    if (!userRecord.emailVerified) {
+      return res.status(400).json({
+        message: "Please verify your email first"
+      });
+    }
+
 
     if (password.length < 6) {
       return res.status(400).json({ message: "Password must be at least 6 characters" })
     }
+
+    req.cleanedData = {
+      email,
+      password,
+      userRecord
+    };
+
     next();
   }
   catch (error) {

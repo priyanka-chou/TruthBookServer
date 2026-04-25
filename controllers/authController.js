@@ -48,7 +48,7 @@ const sendOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
    try {
-      const { email } = req.body;
+      const { email , userRecord} = req.body;
 
       otpStore.delete(email);
 
@@ -74,16 +74,16 @@ const verifyOtp = async (req, res) => {
 const setPassword = async (req, res) => {
    try {
 
-      const { password } = req.body
+      const { email, password, userRecord} = req.body
 
       const salt = await bcrypt.genSalt(10)
 
-      const hashedPassword = bcrypt.hash(password, salt)
+      const hashedPassword = await bcrypt.hash(password, salt)
 
-      registrationStore.set(email, { ...userRecord, password: hashedPassword })
+      registrationStore.set(email, { ...userRecord, password: hashedPassword, passwordSet: true })
 
       res.status(200).json({
-         message: "Password set successfully"
+        message: "Password set successfully. Continue registration."
       })
 
    }
