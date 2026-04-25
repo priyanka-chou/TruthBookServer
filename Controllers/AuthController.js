@@ -1,7 +1,7 @@
 
   const User = require("../models/User");
-  const sendEmail = require("../service/EmailService");
-  const {otpStore ,registrationStore } =require("../utils/Store");
+  const sendEmail = require("../service/emailService");
+  const {otpStore ,registrationStore } =require("../utils/store");
 
 
   const sendOtp = async (req,res)=>{
