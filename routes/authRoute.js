@@ -6,6 +6,6 @@ const { validateEmail ,validateSendOtp} = require("../middleware/authMiddleware"
 
 
 router.post("/send-otp", validateEmail, sendOtp);
-router.post("/verify-otp,",validateSendOtp, verifyOtp);
+router.post("/verify-otp",validateSendOtp, verifyOtp);
 
 module.exports = router;
