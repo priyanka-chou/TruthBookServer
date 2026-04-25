@@ -199,4 +199,4 @@ const validatePassword = (req, res, next) => {
 
 
 
-module.exports = { validateSendOtp, validateEmail, validatePassword };
+module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername};

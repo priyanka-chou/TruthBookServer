@@ -141,6 +141,6 @@ const setUserName = async (req, res) => {
 }
 
 
-module.exports = { sendOtp, verifyOtp, setPassword };
+module.exports = { sendOtp, verifyOtp, setPassword, setUserName };
 
 
