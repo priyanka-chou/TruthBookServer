@@ -143,15 +143,23 @@ const validatePassword = (req, res, next) => {
     })
   }
 
-  const validateUsername = async (req, res, next) => {
+
+}
+ const validateUsername = async (req, res, next) => {
     try {
       const { email, userName } = req.body;
 
       if (!email || !userName) {
-        res.status(400).json({
-          message: " Email and username are required"
-        })
+        return res.status(400).json({
+          message: "Email and username are required"
+        });
       }
+
+
+      email = email.toLowerCase().trim();
+      userName = userName.toLowerCase().trim();
+
+
 
       const regex = /^[a-z0-9_]{4,10}$/
 
@@ -183,7 +191,7 @@ const validatePassword = (req, res, next) => {
         userName,
         userRecord
       };
-      
+
       next();
     }
 
@@ -192,11 +200,8 @@ const validatePassword = (req, res, next) => {
         message: "middleware error"
       })
     }
-  }
-
-
-}
+  };
 
 
 
-module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername};
+module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername };

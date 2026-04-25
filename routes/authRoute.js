@@ -9,6 +9,7 @@ const { validateEmail,
     validateSendOtp,
     validatePassword,
     validateUsername } = require("../middleware/authMiddleware");
+const { setUsername } = require("d:/TruthBook/controllers/authController");
 
 
 router.post("/send-otp", validateEmail, sendOtp);
