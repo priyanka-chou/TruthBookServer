@@ -1,8 +1,8 @@
 const express =require('express');
 require('dotenv').config();
 const server=express();
-const connectDB = require('./database/db');
-const authRoutes = require("./Routes/AuthRoute");
+const connectDB = require('./database/Db');
+const authRoutes = require("./routes/AuthRoute");
 
 
 server.use("api/auth",authRoutes);
