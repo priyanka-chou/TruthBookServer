@@ -105,7 +105,7 @@ const validatePassword = (req, res, next) => {
       return res.status(400).json({ message: "Email and password are required" })
     }
 
-    email = email.toLowerCase().trim();
+    
 
     const userRecord = registrationStore.get(email)
 
