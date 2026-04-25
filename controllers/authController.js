@@ -3,6 +3,7 @@ const User = require("../models/User");
 const sendEmail = require("../service/emailService");
 const { otpStore, registrationStore } = require("../utils/store");
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 
 
@@ -96,6 +97,7 @@ const setPassword = async (req, res) => {
 
 
 //        Step 4 =>     userName set 
+
 
 
 
