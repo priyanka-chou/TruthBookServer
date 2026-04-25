@@ -11,7 +11,7 @@
 
      const otp = Math.floor(100000 + Math.random() * 900000).toString();
      const expireAt = Date.now()+5*60*1000;
-     otpStore.set(email,{otp,expireAt});
+     otpStore.set(email,{otp,expiresAt});
 
      registrationStore.delete(email);
      registrationStore.set(email,{fullName ,email});

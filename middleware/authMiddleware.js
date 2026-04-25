@@ -11,7 +11,7 @@ const validateSendOtp = async (req, res, next) => {
         });
        }
 
-       const otpRecord =otpStore.get(email);
+       const otpRecord =otpstore.get(email);
 
        if(!otpRecord){
         return res.status(400).json({
@@ -19,14 +19,14 @@ const validateSendOtp = async (req, res, next) => {
         })
        }
 
-       if(Date.now()  > otpRecord.expireAt){
+       if(Date.now()  > otpRecord.expiresAt){
         return res.status(400).json({
           message:"Time expired , resend otp"
         })
        }
 
-      if(otpRecord != String(otp)){
-           return res.staus(400).json({
+      if(otpRecord.otp != String(otp)){
+           return res.stauts(400).json({
             message:"Invalid otp"
            })
       }
@@ -55,7 +55,7 @@ const validateSendOtp = async (req, res, next) => {
 
 
 
-const validateEmail = async (req,res)=>{
+const validateEmail = async (req,res,next)=>{
 try {
     const { fullName, email } = req.body;
 
