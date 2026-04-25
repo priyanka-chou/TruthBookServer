@@ -1,4 +1,3 @@
-
 const User = require("../models/User");
 const sendEmail = require("../service/emailService");
 const { otpStore, registrationStore } = require("../utils/store");
@@ -48,15 +47,17 @@ const sendOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
    try {
-      const { email, userRecord } = req.body;
+      const { email } = req.body;
+
+      
+      const userRecord = req.userRecord;
 
       otpStore.delete(email);
 
-      registrationStore.set(email, { ...req.userRecord, emailVerified: true })
+      registrationStore.set(email, { ...userRecord, emailVerified: true })
 
       res.status(200).json({
          message: "Otp verified successfully"
-
       })
 
    }
@@ -74,7 +75,10 @@ const verifyOtp = async (req, res) => {
 const setPassword = async (req, res) => {
    try {
 
-      const { email, password, userRecord } = req.body
+      const { email, password } = req.body
+
+     
+      const userRecord = registrationStore.get(email);
 
       const salt = await bcrypt.genSalt(10)
 
@@ -101,39 +105,43 @@ const setPassword = async (req, res) => {
 const setUserName = async (req, res) => {
    try {
 
-      const { email, userName, userRecord } = req.body
+      const { email, userName } = req.body
 
+    
+      const userRecord = registrationStore.get(email);
+
+      
       const newUser = new User({
          email,
          userName,
-         userRecord
+         fullName: userRecord.fullName,
+         password: userRecord.password,
       })
 
       const savedUser = await newUser.save();
 
-      const {password : encodedpassword,
-            ...finaluserRecord
-       }=savedUser.toObject()
+      const { password: encodedpassword, ...finaluserRecord } = savedUser.toObject()
 
-      const token = jwt.sign({
-         _id: savedUser._id
-
-      },
-  
-         
+      
+      const token = jwt.sign(
+         { _id: savedUser._id },
          process.env.JWT_SECRET,
-       { expiresAt: process.env.JWT_EXPIRE || "7d" }
+         { expiresIn: process.env.JWT_EXPIRE || "7d" }
       )
 
+     
+      registrationStore.delete(email);
+
       res.status(200).json({
-         message: "successfully username created",user : finaluserRecord,token
+         message: "successfully username created", user: finaluserRecord, token
       });
 
 
    }
 
    catch (error) {
-      res.staus(500).json({
+     
+      res.status(500).json({
          message: "Invalid username"
       })
    }
@@ -142,5 +150,3 @@ const setUserName = async (req, res) => {
 
 
 module.exports = { sendOtp, verifyOtp, setPassword, setUserName };
-
-

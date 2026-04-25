@@ -1,6 +1,6 @@
 const mongoose =require('mongoose');
 
-  const PostSchema = new Schema({
+  const PostSchema = new mongoose.Schema({
       user :{
         type : mongoose.Schema.Types.ObjectId,
         require:true,
@@ -36,4 +36,4 @@ const mongoose =require('mongoose');
       }
 
   })
-  module.export = mongoose.model("Post",PostSchema);
+  module.exports = mongoose.model("Post",PostSchema);
