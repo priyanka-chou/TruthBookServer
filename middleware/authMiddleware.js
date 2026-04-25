@@ -145,60 +145,60 @@ const validatePassword = (req, res, next) => {
 
 
 }
- const validateUsername = async (req, res, next) => {
-    try {
-      const { email, userName } = req.body;
+const validateUsername = async (req, res, next) => {
+  try {
+    const { email, userName } = req.body;
 
-      if (!email || !userName) {
-        return res.status(400).json({
-          message: "Email and username are required"
-        });
-      }
-
-
-
-
-
-      const regex = /^[a-z0-9_]{4,10}$/
-
-      if (!regex.test(userName)) {
-       return  res.status(400).json({
-          message: " Invaid username"
-        })
-
-      }
-
-      const userRecord = registrationStore.get(email);
-
-      if (!userRecord || !userRecord.emailVerified || !userRecord.password) {
-        res.status(400).json({
-          message: "Please complete previous step first"
-        })
-      }
-
-      const existingUserName = await User.findOne({ userName });
-
-      if (existingUserName) {
-       return  res.status(400).json({
-          message: "Username already taken"
-        })
-      }
-
-      req.cleanedData = {
-        email,
-        userName,
-        userRecord
-      };
-
-      next();
+    if (!email || !userName) {
+      return res.status(400).json({
+        message: "Email and username are required"
+      });
     }
 
-    catch (error) {
-      res.status(500).json({
-        message: "middleware error"
+
+
+
+
+    const regex = /^[a-z0-9._]{4,20}$/;
+
+    if (!regex.test(userName)) {
+      return res.status(400).json({
+        message: " Invaid username"
+      })
+
+    }
+
+    const userRecord = registrationStore.get(email);
+
+    if (!userRecord || !userRecord.emailVerified || !userRecord.password) {
+      res.status(400).json({
+        message: "Please complete previous step first"
       })
     }
-  };
+
+    const existingUserName = await User.findOne({ userName });
+
+    if (existingUserName) {
+      return res.status(400).json({
+        message: "Username already taken"
+      })
+    }
+
+    req.cleanedData = {
+      email,
+      userName,
+      userRecord
+    };
+
+    next();
+  }
+
+  catch (error) {
+    res.status(500).json({
+      message: "middleware error"
+    })
+  }
+};
 
 
 
