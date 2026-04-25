@@ -156,15 +156,13 @@ const validatePassword = (req, res, next) => {
       }
 
 
-      email = email.toLowerCase().trim();
-      userName = userName.toLowerCase().trim();
 
 
 
       const regex = /^[a-z0-9_]{4,10}$/
 
       if (!regex.test(userName)) {
-        res.status(400).json({
+       return  res.status(400).json({
           message: " Invaid username"
         })
 
@@ -181,7 +179,7 @@ const validatePassword = (req, res, next) => {
       const existingUserName = await User.findOne({ userName });
 
       if (existingUserName) {
-        res.status(400).json({
+       return  res.status(400).json({
           message: "Username already taken"
         })
       }
