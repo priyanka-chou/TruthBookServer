@@ -170,7 +170,7 @@ const validateUsername = async (req, res, next) => {
 
     const userRecord = registrationStore.get(email);
 
-  
+
 
     const existingUserName = await User.findOne({ userName });
 
@@ -193,6 +193,33 @@ const validateUsername = async (req, res, next) => {
     res.status(500).json({
       message: "middleware error"
     })
+  }
+};
+
+
+const validateLogin = (req, res, next) => {
+  try {
+    let { identifier, password } = req.body;
+
+
+    if (!identifier || !password) {
+      return res.status(400).json({
+        message: "Email/Username and password required"
+      });
+    }
+
+   
+    req.cleanedData = {
+      identifier,
+      password
+    };
+
+    next();
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Login middleware error"
+    });
   }
 };
 
