@@ -11,7 +11,7 @@ const { validateEmail,
     validateSendOtp,
     validatePassword,
     validateUsername,
-validateLogin } = require("../middleware/authMiddleware");
+    validateLogin } = require("../middleware/authMiddleware");
 
 
 
@@ -19,8 +19,8 @@ validateLogin } = require("../middleware/authMiddleware");
 router.post("/send-otp", validateEmail, sendOtp);
 router.post("/verify-otp", validateSendOtp, verifyOtp);
 router.post("/set-password", validatePassword, setPassword);
-router.post("/set-userName",validateUsername,setUserName);
-router.post("/login",validateLogin, login);
+router.post("/set-userName", validateUsername, setUserName);
+router.post("/login", validateLogin, login);
 
 
 
