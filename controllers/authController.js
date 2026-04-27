@@ -202,4 +202,6 @@ const login = async (req, res) => {
 };
 
 
-module.exports = { sendOtp, verifyOtp, setPassword, setUserName };
+
+
+module.exports = { sendOtp, verifyOtp, setPassword, setUserName,login };

@@ -197,6 +197,8 @@ const validateUsername = async (req, res, next) => {
 };
 
 
+// ---------------------validate login------------
+
 const validateLogin = (req, res, next) => {
   try {
     let { identifier, password } = req.body;
@@ -225,4 +227,4 @@ const validateLogin = (req, res, next) => {
 
 
 
-module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername };
+module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername, validateLogin};
