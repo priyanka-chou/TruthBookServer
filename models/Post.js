@@ -7,15 +7,10 @@ const mongoose = require('mongoose');
         ref : "User"
       },
    
-    type: {
-        type: String,
-        enum: ["image", "tweet"],
-        required: true,
-        default: "image"
-    },
 
     caption: {
         type: String,
+        maxLength : 500
     },
 
     
@@ -25,8 +20,8 @@ const mongoose = require('mongoose');
     },
 
     likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type : Number,
+        default : 0
     }],
 
     comment: [{
@@ -34,9 +29,9 @@ const mongoose = require('mongoose');
         ref: "Comment",
     }],
 
-    createdAt: {
+   createdAt: {
         type: Date,
-        default: Date.now,
+         default: Date.now(),
         required: true,
     }
 });
