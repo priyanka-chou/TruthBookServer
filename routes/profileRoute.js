@@ -9,7 +9,7 @@ const {validateProfile } = require("../middleware/profileMiddleware");
 
 
 
-router.get("/get-profile",getUserProfile,validateProfile);
+router.get("/get-profile:userName",getUserProfile,validateProfile);
 
 
 
