@@ -22,4 +22,4 @@ followSchema.index(
     {unique:true}
 
 )
-module.export=mongoose.model("Follow",followSchema);
+module.exports=mongoose.model("Follow",followSchema);

@@ -11,7 +11,7 @@ const validateProfile = async(req, res, next)=>{
         message: "full name is too short"
       })
     }
-  const allowField=[fullName, bio, profilePicture, coverPicture];
+  const allowField = ["fullName", "bio", "profilePicture", "coverPicture"];
   const incomingField= Object.keys(req.body)
   const keyValidate=incomingField.every(field =>allowField.includes(field) )
 
