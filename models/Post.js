@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
       user :{
         type : mongoose.Schema.Types.ObjectId,
         required:true,
-        ref : "User"
+        ref : "User",
+        index:true
       },
+
+      
    
 
     caption: {
