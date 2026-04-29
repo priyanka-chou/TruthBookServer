@@ -3,7 +3,7 @@ const mongoose =require('mongoose');
 const userSchema = new mongoose.Schema({
     fullName : {
          type : String,
-         require :true
+         required :true
 
     },
     email : {
@@ -11,18 +11,18 @@ const userSchema = new mongoose.Schema({
         unique : true,
         lowercase :true,
         trim :true,
-        require:true
+        required:true
 
     },
     password :{
         type : String,
-        require :true,
+        required :true,
         
     },
 
     userName :{
         type :String,
-        require: true,
+        required: true,
         unique:true,
         trim :true,
         lowercase :true
@@ -31,40 +31,44 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type : String,
-        default : " "
+        default : ""
 
+     },
+
+     bio :{
+        type :String,
+        default :"",
+        maxLength :150
      },
 
      coverPicture :{
         type :String,
-        default : " "
+        default : ""
      },
 
-     posts : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Post"
-    }],
+     postsCount : {
+       type : Number,
+       default :0
+    },
       
-     followers: [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    }],
+     followersCount: {
+         type : Number,
+       default :0
+    },
 
-     following : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    }],
+     followingCount : {
+        type : Number,
+       default :0
+    },
 
-    blocked: [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    }],
+    
 
-    visiblity :{
+    visibility :{
         type: String,
         enum :[
            "Private","Public" 
-        ]
+        ],
+        default:"Public"
     },
 
     isOnline :{
@@ -72,10 +76,10 @@ const userSchema = new mongoose.Schema({
         default :false,
     },
     
-     createAt:{
+     createdAt:{
         type : Date,
-        default :Date.now,
-        require: true,
+        default :Date.now(),
+        required: true,
       }
      
 

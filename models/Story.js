@@ -4,7 +4,7 @@ const StorySchema = new Schema({
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true,
+        required: true,
         ref: "User"
 
     },
@@ -20,10 +20,10 @@ const StorySchema = new Schema({
 
     },
 
-    createAt: {
+    createdAt: {
         type: Date,
-        default: Date.now,
-        require: true,
+        default: Date.now(),
+        required: true,
     },
 
     Views: [{

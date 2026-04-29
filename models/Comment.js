@@ -5,20 +5,20 @@ const CommentSchema = new Schema({
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
-        require: true
+        required: true
 
     },
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true,
+        required: true,
         ref: "User"
 
     },
 
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
 
     likes: [{
@@ -29,20 +29,20 @@ const CommentSchema = new Schema({
 
     text: {
         type: String,
-        require: true
+        required: true
     },
 
     reply: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: "User"
 
         },
 
         createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now()
         },
 
         likes: [{
@@ -53,7 +53,7 @@ const CommentSchema = new Schema({
 
         text: {
             type: String,
-            require: true
+            required: true
         }
     }],
 

@@ -16,6 +16,12 @@ const validateEmail = async (req, res, next) => {
       return res.status(400).json({
         message: "Full name and email are required"
       });
+      
+    }
+    if(fullName.length<2){
+      return res.status(400).json({
+        message: "full name is too short"
+      })
     }
 
     const existingUser = await User.findOne({ email });
@@ -145,6 +151,8 @@ const validatePassword = (req, res, next) => {
 
 
 }
+
+// ---------------STEP-4 ---------------
 const validateUsername = async (req, res, next) => {
   try {
     const { email, userName } = req.body;
@@ -154,7 +162,11 @@ const validateUsername = async (req, res, next) => {
         message: "Email and username are required"
       });
     }
-
+    if(userName.length<3){
+      return res.status(400).json({
+        message:"user name too short"
+      })
+    }
 
 
 
@@ -224,6 +236,8 @@ const validateLogin = (req, res, next) => {
     });
   }
 };
+
+
 
 
 
