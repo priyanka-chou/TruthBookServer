@@ -5,13 +5,13 @@ const CommentSchema = new Schema({
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
-        require: true
+        required: true
 
     },
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true,
+        required: true,
         ref: "User"
 
     },
@@ -29,13 +29,13 @@ const CommentSchema = new Schema({
 
     text: {
         type: String,
-        require: true
+        required: true
     },
 
     reply: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            require: true,
+            required: true,
             ref: "User"
 
         },
@@ -53,7 +53,7 @@ const CommentSchema = new Schema({
 
         text: {
             type: String,
-            require: true
+            required: true
         }
     }],
 

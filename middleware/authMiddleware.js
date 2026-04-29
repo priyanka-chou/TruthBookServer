@@ -227,4 +227,6 @@ const validateLogin = (req, res, next) => {
 
 
 
+
+
 module.exports = { validateSendOtp, validateEmail, validatePassword, validateUsername, validateLogin};

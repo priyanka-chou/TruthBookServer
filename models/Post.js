@@ -3,7 +3,7 @@ const mongoose =require('mongoose');
   const PostSchema = new mongoose.Schema({
       user :{
         type : mongoose.Schema.Types.ObjectId,
-        require:true,
+        required:true,
         ref : "User"
 
       },
@@ -29,10 +29,10 @@ const mongoose =require('mongoose');
           ref : "Comment",
       }],
 
-      createAt:{
+      createdAt:{
         type : Date,
         default :Date.now,
-        require: true,
+        required: true,
       }
 
   })
