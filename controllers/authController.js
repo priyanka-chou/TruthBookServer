@@ -150,55 +150,68 @@ const setUserName = async (req, res) => {
 
 //    Step 5 =>    Login ------
 
+// controllers/authController.js
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
 const login = async (req, res) => {
-   try {
-      const { identifier, password } = req.cleanedData;
+  try {
+    const { identifier, password } = req.cleanedData;
 
+    const user = await User.findOne({
+      $or: [
+        { email: identifier },
+        { userName: identifier }
+      ]
+    }).select("+password");
 
-      const user = await User.findOne({
-         $or: [
-            { email: identifier },
-            { userName: identifier }
-         ]
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
       });
+    }
 
-      if (!user) {
-         return res.status(404).json({
-            message: "User not found"
-         });
-      }
+    const isMatch = await bcrypt.compare(password, user.password);
 
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-         return res.status(401).json({
-            message: "Wrong credentials"
-         });
-      }
-
-
-      const { password: _, ...userData } = user.toObject();
-
-
-      const token = jwt.sign(
-         { _id: user._id },
-         process.env.JWT_SECRET,
-         { expiresIn: process.env.JWT_EXPIRE || "7d" }
-      );
-
-      return res.status(200).json({
-         message: "Login successful",
-         user: userData,
-         token
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Wrong credentials"
       });
+    }
 
-   } catch (error) {
-      console.error("ERROR:", error);
-      return res.status(500).json({
-         message: "Something went wrong"
-      });
-   }
+    const token = jwt.sign(
+      { id: user._id },   
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE || "7d" }
+    );
+
+   
+    const userData = {
+      _id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+      bio: user.bio,
+      profilePicture: user.profilePicture,
+      coverPicture: user.coverPicture,
+      followerCount: user.followerCount,
+      followingCount: user.followingCount,
+      postCount: user.postCount
+    };
+
+    return res.status(200).json({
+      message: "Login successful",
+      user: userData,
+      token
+    });
+
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+    return res.status(500).json({
+      message: "Something went wrong"
+    });
+  }
 };
 
 

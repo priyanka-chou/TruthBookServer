@@ -211,14 +211,23 @@ const validateUsername = async (req, res, next) => {
 
 // ---------------------validate login------------
 
+
 const validateLogin = (req, res, next) => {
   try {
     let { identifier, password } = req.body;
 
-
     if (!identifier || !password) {
       return res.status(400).json({
         message: "Email/Username and password required"
+      });
+    }
+
+   
+    identifier = identifier.trim().toLowerCase();
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters"
       });
     }
 
@@ -236,6 +245,8 @@ const validateLogin = (req, res, next) => {
     });
   }
 };
+
+
 
 
 

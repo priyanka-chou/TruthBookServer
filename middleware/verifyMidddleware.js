@@ -1,29 +1,35 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 
-const  requireAuth = (req,res,next)=>{
+const requireAuth = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
 
-     try{
-        const token =req.headers.authorization.split(" ")[1];
-     
+    if (!authHeader) {
+      return res.status(401).json({
+        message: "Unauthorized"
+      });
+    }
 
-     if(!token){
-        return res.status(400).json({
-            message :"Unauthorized"
-        })
-     }
+    const token = authHeader.split(" ")[1];
 
-     const decoded = jwt.verify(token,process.env.JWT_SECRET);
+    if (!token) {
+      return res.status(401).json({
+        message: "Unauthorized"
+      });
+    }
 
-     User.req ={id:decoded.id}
-     next();
-     }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-     catch(error){
-        res.status(500).json({
-            message :"Invalid token"
-        })
-     }
-}
+  
+    req.user = { id: decoded.id };
 
-module.exports={requireAuth};
+    next();
+
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid token"
+    });
+  }
+};
+
+module.exports = { requireAuth };
