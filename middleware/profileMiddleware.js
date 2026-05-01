@@ -37,7 +37,7 @@ const validateProfile = async (req, res, next) => {
 const validateProfilePost = async (req, res, next) => {
 
   try {
-        const { userid}
+       
 
   } catch (error) {
     res.status(500).json({
