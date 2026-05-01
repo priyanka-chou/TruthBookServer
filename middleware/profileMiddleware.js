@@ -1,3 +1,5 @@
+const  mongoose  = require("mongoose");
+
 const validateProfile = async (req, res, next) => {
   try {
     const { fullName, bio, profilePicture, coverPicture } = req.body;
@@ -37,7 +39,36 @@ const validateProfile = async (req, res, next) => {
 const validateProfilePost = async (req, res, next) => {
 
   try {
-       
+
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId(userId)) {
+      return res.status(400).json({
+        message: "Invaild User "
+      })
+
+
+    }
+
+    const { page, limit } = req.query;
+
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 12;
+
+    if (page < 1 || limit < 1) {
+      return res.status(400).json({
+        message: "Invalid pagination values"
+      });
+    }
+
+     req.pagination = {
+      page,
+      limit,
+      skip: (page - 1) * limit
+    };
+
+    next();
+
 
   } catch (error) {
     res.status(500).json({
@@ -46,4 +77,4 @@ const validateProfilePost = async (req, res, next) => {
   }
 }
 
-module.exports = { validateProfile };
+module.exports = { validateProfile, validateProfilePost };

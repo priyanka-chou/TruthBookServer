@@ -193,7 +193,8 @@ const login = async (req, res) => {
       coverPicture: user.coverPicture,
       followersCount: user.followersCount,
       followingCount: user.followingCount,
-      postCount: user.postCount
+      postCount: user.postCount,
+      createdAt : user.createdAt
     };
 
     return res.status(200).json({

@@ -48,4 +48,35 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile }; 
+const getUserPost = async (req, res, next) => {
+    try {
+
+        const { userId } = req.params;
+        const { page, limit, skip } = req.pagination;
+
+        const posts = await Post.find({ userId })
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .select("image caption createdAt");
+
+        const totalPosts = await Post.countDocuments({ userId });
+
+        return res.json({
+            posts,
+            currentPage: page,
+            totalPages: Math.ceil(totalPosts / limit)
+        });
+
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server error"
+        });
+    }
+
+}
+
+module.exports = { getUserProfile, getUserPost }; 
