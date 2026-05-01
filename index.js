@@ -9,7 +9,9 @@ const profileRoutes = require("./routes/profileRoute")
 server.use(express.json()); 
 
 server.use("/api/auth", authRoutes);
-server.use("/api/profile",profileRoutes)
+server.use("/api/profile",profileRoutes);
+server.use("api/post",createPostRoute);
+
 
 server.get('/', (req, res) => {
     res.send('Hello World');
