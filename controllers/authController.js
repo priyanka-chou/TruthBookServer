@@ -191,7 +191,7 @@ const login = async (req, res) => {
       bio: user.bio,
       profilePicture: user.profilePicture,
       coverPicture: user.coverPicture,
-      followerCount: user.followerCount,
+      followersCount: user.followersCount,
       followingCount: user.followingCount,
       postCount: user.postCount
     };
