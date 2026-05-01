@@ -5,12 +5,13 @@ const server = express();
 const connectDB = require('./database/db');
 const authRoutes = require("./routes/authRoute");
 const profileRoutes = require("./routes/profileRoute")
+const createPostRoutes = require("./routes/createPostRoute")
 
 server.use(express.json()); 
 
 server.use("/api/auth", authRoutes);
 server.use("/api/profile",profileRoutes);
-server.use("api/post",createPostRoute);
+server.use("api/post",createPostRoutes);
 
 
 server.get('/', (req, res) => {
