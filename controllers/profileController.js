@@ -5,10 +5,10 @@ const Post = require("../models/Post");
 const getUserProfile = async (req, res) => {
     try {
         const { userName } = req.params;
-        const user = await User.findOne({ userName }); 
+        const user = await User.findOne({ userName });
 
         if (!user) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 message: "User not found"
             });
         }
@@ -17,7 +17,7 @@ const getUserProfile = async (req, res) => {
         if (req.user) {
             const follow = await Follow.findOne({
                 followersId: req.user.id,
-                followingId: user._id,  
+                followingId: user._id,
             });
             isFollowing = !!follow;
         }
@@ -32,6 +32,11 @@ const getUserProfile = async (req, res) => {
             followingCount: user.followingCount,
             postCount: user.postCount,
             isFollowing,
+            createdAt: user.createdAt.toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }),
             isOwnProfile: req.user?.id === user._id.toString()
         });
 
