@@ -29,6 +29,7 @@ const getUserProfile = async (req, res) => {
             profilePicture: user.profilePicture,
             coverPicture: user.coverPicture,
             followersCount: user.followersCount,
+            //  error fixed by harsh
             followingCount: user.followingCount,
             postCount: user.postCount,
             isFollowing,
