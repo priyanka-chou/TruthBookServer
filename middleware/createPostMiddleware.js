@@ -54,7 +54,7 @@ const validateDeletePost = async (req,res,next)=>{
             })
         }
     
-    const existingPost = Post.findOne({postId});
+    const existingPost = Post.findOne(postId);
 
     if(!existingPost){
        return res.status(404).json({
