@@ -44,41 +44,48 @@ const validateCreatePost = (req, res, next) => {
 
 // ====================================== delete post========================================
 
-const validateDeletePost = async (req,res,next)=>{
-    try{
-        const {postId} =  req.params;
+const mongoose = require("mongoose");
+const Post = require("../models/Post");
 
-        if(!mongoose.Types.ObjectId.isValid(postId)){
-            return res.status(404).json({
-                message:"Post id is not found"
-            })
-        }
-    
-    const existingPost = await  Post.findById(postId);
+const validateDeletePost = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
 
-    if(!existingPost){
-       return res.status(404).json({
-        message : "Post is not found in database"
-       })
+    // ✅ Invalid ID
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(400).json({
+        message: "Invalid post ID"
+      });
     }
 
+    // ✅ Find post
+    const existingPost = await Post.findById(postId);
 
-    if(existingPost.userId.toString() !== req.user.id ){
-        return res.status(400).json({
-            message : "You can't delete this post"
-        })
+    if (!existingPost) {
+      return res.status(404).json({
+        message: "Post not found in database"
+      });
     }
 
+    // ✅ Ownership check
+    if (existingPost.userId.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You can't delete this post"
+      });
+    }
+
+    // ✅ Pass data forward
     req.cleanedData = existingPost;
 
     next();
 
-    }
-    catch(err){
-        return res.status(500).json({
-            message :"post delete middleware error"
-        })
-    }
-}
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "post delete middleware error"
+    });
+  }
+};
+
 
 module.exports = { validateCreatePost,validateDeletePost };
