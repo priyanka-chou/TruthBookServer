@@ -49,7 +49,7 @@ const Post = require("../models/Post");
 
 const validateDeletePost = async (req, res, next) => {
   try {
-    const { postId } = req.params;
+    const { postId } = req.query;
 
     // ✅ Invalid ID
     if (!mongoose.Types.ObjectId.isValid(postId)) {
