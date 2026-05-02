@@ -11,7 +11,7 @@ server.use(express.json());
 
 server.use("/api/auth", authRoutes);
 server.use("/api/profile",profileRoutes);
-server.use("api/post",createPostRoutes);
+server.use("/api/post",createPostRoutes);
 
 
 server.get('/', (req, res) => {
