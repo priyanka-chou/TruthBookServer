@@ -1,13 +1,18 @@
 const express = require("express");
-const router =  express.Router();
+const router = express.Router();
 
-const {validateCreatePost} = require("../middleware/createPostMiddleware")
-const {requireAuth} = require("../middleware/verifyMidddleware")
-const{createPost} = require("../controllers/createPostController")
+const { validateCreatePost } = require("../middleware/createPostMiddleware");
+const { requireAuth } = require("../middleware/verifyMidddleware");
+const { createPost } = require("../controllers/createPostController");
 
-const{upload}=require("../middleware/uploadMiddleware")
+const upload = require("../middleware/uploadMiddleware");
 
-router.post("/create-post",requireAuth,upload.single("image"), validateCreatePost, createPost);
-
+router.post(
+  "/create-post",
+  requireAuth,
+  upload.single("image"),
+  validateCreatePost,
+  createPost
+);
 
 module.exports = router;
