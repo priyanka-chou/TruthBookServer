@@ -39,4 +39,46 @@ const validateCreatePost = (req, res, next) => {
   }
 };
 
-module.exports = { validateCreatePost };
+
+
+
+// ====================================== delete post========================================
+
+const validateDeletePost = async (req,res,next)=>{
+    try{
+        const {postId} =  req.params;
+
+        if( mongoose.Types.ObjectId.isValid(postId)){
+            return res.status(404).json({
+                message:"Post id is not found"
+            })
+        }
+    
+    const existingPost = Post.findOne({postId});
+
+    if(!existingPost){
+       return res.status(404).json({
+        message : "Post is not found in database"
+       })
+    }
+
+
+    if(post.userId.toString() != req.user.id ){
+        return res.status(400).json({
+            message : "You can't delete this post"
+        })
+    }
+
+    req.cleanedData = existingPost;
+
+    next();
+
+    }
+    catch(err){
+        return res.status(500).json({
+            message :"post delete middleware error"
+        })
+    }
+}
+
+module.exports = { validateCreatePost,validateDeletePost };
