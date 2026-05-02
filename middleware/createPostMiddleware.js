@@ -1,4 +1,4 @@
-const validateCreatePost = (res, res,) => {
+const validateCreatePost = (res, res) => {
     try {
 
         
