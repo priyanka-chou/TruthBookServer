@@ -31,7 +31,7 @@ const getUserProfile = async (req, res) => {
             followersCount: user.followersCount,
             //  error fixed by harsh
             followingCount: user.followingCount,
-            postCount: user.postCount,
+            postsCount: user.postsCount,
             isFollowing,
             createdAt: user.createdAt.toLocaleDateString("en-IN", {
                 day: "numeric",
