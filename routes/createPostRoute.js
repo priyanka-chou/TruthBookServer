@@ -5,7 +5,7 @@ const {validateCreatePost} = require("../middleware/createPostMiddleware")
 const {requireAuth} = require("../middleware/verifyMidddleware")
 const{createPost} = require("../controllers/createPostController")
 
-const{upload}=require("../midddleware/uploadMiddleware")
+const{upload}=require("../middleware/uploadMiddleware")
 
 router.post("/create-post",requireAuth,upload.single("image"), validateCreatePost, createPost);
 
