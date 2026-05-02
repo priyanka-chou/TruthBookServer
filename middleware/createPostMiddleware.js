@@ -48,13 +48,13 @@ const validateDeletePost = async (req,res,next)=>{
     try{
         const {postId} =  req.params;
 
-        if( mongoose.Types.ObjectId.isValid(postId)){
+        if(!mongoose.Types.ObjectId.isValid(postId)){
             return res.status(404).json({
                 message:"Post id is not found"
             })
         }
     
-    const existingPost = Post.findOne(postId);
+    const existingPost = await  Post.findById(postId);
 
     if(!existingPost){
        return res.status(404).json({
@@ -63,7 +63,7 @@ const validateDeletePost = async (req,res,next)=>{
     }
 
 
-    if(post.userId.toString() != req.user.id ){
+    if(existingPost.userId.toString() !== req.user.id ){
         return res.status(400).json({
             message : "You can't delete this post"
         })
