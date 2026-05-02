@@ -41,10 +41,9 @@ const createPost = async (req, res) => {
 const deletePost = async (req,res)=>{
     try{
        const userId = req.user.id;
-
        const existingPost =req.cleanedData;
 
-       await Post.findOneAndDelete(postId);
+       await Post.findOneAndDelete(existingPost._id);
 
        await User.findByIdAndUpdate(userId ,{
          $inc :{postsCount : -1}
