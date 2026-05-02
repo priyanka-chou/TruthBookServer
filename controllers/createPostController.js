@@ -1,10 +1,11 @@
 const Post = require("../models/Post");
-const User = require("../models/User")
+const User = require("../models/User");
+const upload =require("../middleware/uploadMiddleware");    
 
 const createPost = async (req, res, next) => {
 
     try {
-        const { userId } = req.params;
+        const { userId } = req.user.id;
         const { image, caption } = req.cleanedData;
 
         const createPost = await Post.create({

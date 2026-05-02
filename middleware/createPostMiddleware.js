@@ -2,7 +2,9 @@ const validateCreatePost = (res, res,) => {
     try {
 
         
-        const { image, caption } = req.body;
+        const {  caption } = req.body;
+        const {hasImage} = !!req.file;
+        
 
         if (!image || image.trim() == "") {
             return res.status(400).json({
@@ -20,7 +22,7 @@ const validateCreatePost = (res, res,) => {
         }
 
         req.cleanedData = {
-            image,
+            image :hasImage? `/upload/${req.file.filename}` :"",
             caption
         }
 
