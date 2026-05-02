@@ -33,4 +33,4 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 2MB
 });
 // changes
-module.exports = { upload };
+module.exports = upload ;
