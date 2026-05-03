@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
 
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -20,11 +20,12 @@ const postSchema = new mongoose.Schema({
     default: ""
   },
 
- 
-  likesCount: {
-    type: Number,
-    default: 0
-  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
 
   commentsCount: {
     type: Number,
@@ -32,5 +33,8 @@ const postSchema = new mongoose.Schema({
   }
 
 }, { timestamps: true });
+
+// 🔥 Important for feed performance
+postSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Post", postSchema);

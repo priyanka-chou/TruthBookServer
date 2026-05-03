@@ -1,6 +1,8 @@
 
 const Post = require("../models/Post");
 const User = require("../models/User");
+const path = require("path");
+const fs = require("fs");
 
 const createPost = async (req, res) => {
   try {
@@ -42,6 +44,16 @@ const deletePost = async (req,res)=>{
     try{
        const userId = req.user.id;
        const existingPost =req.cleanedData;
+
+       if (existingPost.image) {
+      const filePath = path.join(__dirname, "..", existingPost.image);
+
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log("File delete error:", err.message);
+        }
+      });
+    }
 
        await Post.findOneAndDelete(existingPost._id);
 
