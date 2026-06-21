@@ -2,23 +2,17 @@ const validateCreatePost = (req, res, next) => {
   try {
     const { caption } = req.body;
     const hasImage = !!req.file;
+    const hasCaption = !!caption && caption.trim() !== "";
 
-    // ✅ Image check
-    if (!hasImage) {
+    // ✅ Must have at least one of image or caption (text-only posts allowed)
+    if (!hasImage && !hasCaption) {
       return res.status(400).json({
-        message: "Image is required"
-      });
-    }
-
-    // ✅ Caption check
-    if (!caption || caption.trim() === "") {
-      return res.status(400).json({
-        message: "Caption is required"
+        message: "Post must contain a caption or an image"
       });
     }
 
     // ✅ Length check (max 500)
-    if (caption.length > 500) {
+    if (hasCaption && caption.length > 500) {
       return res.status(400).json({
         message: "Caption is too long"
       });
@@ -26,8 +20,8 @@ const validateCreatePost = (req, res, next) => {
 
     // ✅ Clean data
     req.cleanedData = {
-      image: `/upload/${req.file.filename}`,
-      caption
+      image: hasImage ? `/upload/${req.file.filename}` : "",
+      caption: hasCaption ? caption.trim() : ""
     };
 
     next();
@@ -68,7 +62,7 @@ const validateDeletePost = async (req, res, next) => {
     }
 
     // ✅ Ownership check
-    if (existingPost.userId.toString() !== req.user.id) {
+    if (existingPost.user.toString() !== req.user.id) {
       return res.status(403).json({
         message: "You can't delete this post"
       });

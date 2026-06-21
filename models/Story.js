@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const StorySchema = new Schema({
+const StorySchema = new mongoose.Schema({
 
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,21 +17,29 @@ const StorySchema = new Schema({
 
     text: {
         type: String,
+        default: "",
 
     },
 
     createdAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         required: true,
     },
 
-    Views: [{
+    expiresAt: {
+        type: Date,
+        default: () => Date.now() + 24 * 60 * 60 * 1000,
+    },
+
+    views: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
 
     }]
 })
 
-module.exports = mongoose.model("Story", StorySchema);
 
+StorySchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+module.exports = mongoose.model("Story", StorySchema);

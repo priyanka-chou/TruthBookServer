@@ -27,6 +27,11 @@ const postSchema = new mongoose.Schema({
     }
   ],
 
+  likesCount: {
+    type: Number,
+    default: 0
+  },
+
   commentsCount: {
     type: Number,
     default: 0
@@ -34,7 +39,7 @@ const postSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-// 🔥 Important for feed performance
+
 postSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Post", postSchema);

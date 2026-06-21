@@ -4,14 +4,14 @@ const validateProfile = async (req, res, next) => {
   try {
     const { fullName, bio, profilePicture, coverPicture } = req.body;
 
-    if (fullName.length < 2) {
+    if (fullName !== undefined && fullName.trim().length < 2) {
       return res.status(400).json({
         message: "full name is too short"
       })
     }
-    if (bio.length > 150) {
+    if (bio !== undefined && bio.length > 150) {
       return res.status(400).json({
-        message: "full name is too short"
+        message: "bio is too long"
       })
     }
     const allowField = ["fullName", "bio", "profilePicture", "coverPicture"];
@@ -23,6 +23,13 @@ const validateProfile = async (req, res, next) => {
         message: "invalid request"
       })
     }
+
+    if (incomingField.length === 0) {
+      return res.status(400).json({
+        message: "No fields provided to update"
+      })
+    }
+
     next();
   }
 
@@ -42,30 +49,13 @@ const validateProfilePost = async (req, res, next) => {
 
     const { userId } = req.params;
 
-    if (!mongoose.Types.ObjectId(userId)) {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({
-        message: "Invaild User "
+        message: "Invalid user"
       })
 
 
     }
-
-    const { page, limit } = req.query;
-
-    page = parseInt(page) || 1;
-    limit = parseInt(limit) || 12;
-
-    if (page < 1 || limit < 1) {
-      return res.status(400).json({
-        message: "Invalid pagination values"
-      });
-    }
-
-     req.pagination = {
-      page,
-      limit,
-      skip: (page - 1) * limit
-    };
 
     next();
 

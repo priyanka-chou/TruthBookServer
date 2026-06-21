@@ -54,13 +54,13 @@ const getUserPost = async (req, res, next) => {
         const { userId } = req.params;
         const { page, limit, skip } = req.pagination;
 
-        const posts = await Post.find({ userId })
+        const posts = await Post.find({ user: userId })
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
-            .select("image caption createdAt");
+            .select("image caption likesCount commentsCount createdAt");
 
-        const totalPosts = await Post.countDocuments({ userId });
+        const totalPosts = await Post.countDocuments({ user: userId });
 
         return res.json({
             posts,
@@ -79,4 +79,48 @@ const getUserPost = async (req, res, next) => {
 
 }
 
-module.exports = { getUserProfile, getUserPost }; 
+// ======================================= EDIT PROFILE =======================================
+
+const editProfile = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const allowedUpdates = {};
+
+        ["fullName", "bio", "profilePicture", "coverPicture"].forEach((field) => {
+            if (req.body[field] !== undefined) {
+                allowedUpdates[field] = req.body[field];
+            }
+        });
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            allowedUpdates,
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                fullName: updatedUser.fullName,
+                userName: updatedUser.userName,
+                bio: updatedUser.bio,
+                profilePicture: updatedUser.profilePicture,
+                coverPicture: updatedUser.coverPicture
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Could not update profile"
+        });
+    }
+};
+
+module.exports = { getUserProfile, getUserPost, editProfile };

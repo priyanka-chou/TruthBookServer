@@ -32,4 +32,24 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-module.exports = { requireAuth };
+// Like requireAuth, but never blocks the request — just attaches req.user
+// when a valid token is present. Lets guests view public data (e.g. profiles)
+// while still giving logged-in users personalized fields (isFollowing, isLiked).
+const optionalAuth = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader ? authHeader.split(" ")[1] : null;
+
+    if (token) {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = { id: decoded.id };
+    }
+
+    next();
+  } catch (error) {
+    // Invalid/expired token on an optional route — proceed as a guest.
+    next();
+  }
+};
+
+module.exports = { requireAuth, optionalAuth };

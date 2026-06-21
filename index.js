@@ -4,16 +4,17 @@ require('dotenv').config();
 const server = express();
 const connectDB = require('./database/db');
 const authRoutes = require("./routes/authRoute");
-const profileRoutes = require("./routes/profileRoute");
-const createPostRoutes = require("./routes/createPostRoute");
-const feedRoutes =require("./routes/feedRoute");
+const profileRoutes = require("./routes/profileRoute")
+const createPostRoutes = require("./routes/createPostRoute")
+const storyRoutes = require("./routes/storyRoute")
 
 server.use(express.json()); 
+server.use("/upload", express.static("upload"));
 
 server.use("/api/auth", authRoutes);
 server.use("/api/profile",profileRoutes);
 server.use("/api/post",createPostRoutes);
-server.use("/api/feed",feedRoutes);
+server.use("/api/story",storyRoutes);
 
 
 server.get('/', (req, res) => {

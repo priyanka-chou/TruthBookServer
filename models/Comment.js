@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CommentSchema = new Schema({
+const CommentSchema = new mongoose.Schema({
 
     post: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +18,7 @@ const CommentSchema = new Schema({
 
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
 
     likes: [{
@@ -42,7 +42,7 @@ const CommentSchema = new Schema({
 
         createdAt: {
             type: Date,
-            default: Date.now()
+            default: Date.now
         },
 
         likes: [{
@@ -59,4 +59,4 @@ const CommentSchema = new Schema({
 
 })
 
- module.export = mongoose.model("Comment",CommentSchema);
+module.exports = mongoose.model("Comment", CommentSchema);
