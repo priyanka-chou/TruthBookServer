@@ -1,7 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
-const path = require("path");
-const fs = require("fs");
+const cloudinary = require("../service/cloudinary");
 
 const createPost = async (req, res) => {
   try {
@@ -48,13 +47,19 @@ const deletePost = async (req,res)=>{
        const existingPost =req.cleanedData;
 
        if (existingPost.image) {
-      const filePath = path.join(__dirname, "..", existingPost.image);
+      // Cloudinary URLs look like:
+      // https://res.cloudinary.com/<cloud_name>/image/upload/v<version>/feed_posts/<id>.<ext>
+      // The public_id Cloudinary needs for deletion is "feed_posts/<id>" (no version, no extension).
+      const match = existingPost.image.match(/\/feed_posts\/([^./]+)\.[a-zA-Z]+$/);
 
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log("File delete error:", err.message);
-        }
-      });
+      if (match) {
+        const publicId = `feed_posts/${match[1]}`;
+        cloudinary.uploader.destroy(publicId, (err) => {
+          if (err) {
+            console.log("Cloudinary delete error:", err.message);
+          }
+        });
+      }
     }
 
        await Post.findOneAndDelete({ _id: existingPost._id });

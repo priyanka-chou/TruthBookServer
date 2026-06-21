@@ -17,7 +17,7 @@ const createStory = async (req, res) => {
 
     const newStory = await Story.create({
       user: userId,
-      image: hasImage ? `/upload/${req.file.filename}` : "",
+      image: hasImage ? req.file.path : "",
       text: text ? text.trim() : ""
     });
 
